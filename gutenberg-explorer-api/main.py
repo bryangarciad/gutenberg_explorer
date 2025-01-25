@@ -16,4 +16,4 @@ main_app.add_middleware(
 main_app.mount(path="/book", app=book_sub_app)
 
 if __name__ == "__main__":
-    uvicorn.run(main_app, host="127.0.0.1", port=8000)
+    uvicorn.run(main_app, host="0.0.0.0", port=8000)

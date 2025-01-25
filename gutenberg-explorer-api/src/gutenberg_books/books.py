@@ -16,7 +16,7 @@ async def get_book_meta(book_id: str, response: Response):
         res = get(url, timeout=10000)
 
         if res.status_code == 200:
-            document = BeautifulSoup(response.content, "html.parser")
+            document = BeautifulSoup(res.content, "html.parser")
             book = parse_html_to_model(document)
             return {"data": book}
         elif res.status_code == 404:

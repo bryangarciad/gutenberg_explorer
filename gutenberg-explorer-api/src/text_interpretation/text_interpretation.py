@@ -1,5 +1,5 @@
 from fastapi import FastAPI, status, Response, Request
-import openai
+from openai import OpenAI
 import json
 
 analyze_text_sub_app = FastAPI()
@@ -10,7 +10,6 @@ async def analyse_text(response: Response, request: Request):
     Analyze text From Gutenberg book
     '''
     try:
-        print("test")
         data = await request.body()
         data = json.loads(data)
         if not data["data"]:
@@ -20,16 +19,17 @@ async def analyse_text(response: Response, request: Request):
         text = data["data"]
 
         summary_prompt = f"Summarize the following text:\n\n{text}"
-        summary_response = openai.completions.create(
-            engine="text-davinci-003",
+        client = OpenAI()
+        summary_response = client.completions.create(
+            model="gpt-4o-mini",
             prompt=summary_prompt,
-            max_tokens=150
+            max_tokens=3000
         )
         character_prompt = f"Identify the principal characters in the following text:\n\n{text}"
-        character_response = openai.completions.create(
-            engine="text-davinci-003",
+        character_response = client.completions.create(
+            model="gpt-4o-mini",
             prompt=character_prompt,
-            max_tokens=150
+            max_tokens=3000
         )
         characters = character_response.choices[0].text.strip()
         summary = summary_response.choices[0].text.strip()

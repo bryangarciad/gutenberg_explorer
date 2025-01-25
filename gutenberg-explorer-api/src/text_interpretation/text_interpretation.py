@@ -38,6 +38,7 @@ async def analyse_text(response: Response, request: Request):
             characters: characters,
             summary: summary
         }}
-    except Exception as _:
+    except Exception as err:
+        print(err)
         response.status_code = status.HTTP_500_INTERNAL_SERVER_ERROR
         return {"message": "Something went wrong"}
